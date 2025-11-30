@@ -1,6 +1,16 @@
-# Kabil.ai-AI-mock-interview-platform
-“AI-powered real-time mock interview platform featuring voice-based interaction, role-specific interview modes, dynamic follow-up questioning, and automated evaluation (communication, technical, confidence). Built by Team Gen Z for the HCL GUVI Upskill India Challenge.”
-genz-ai-mock-interviewer/
+# Team Gen Z – AI Mock Interviewer
+A real-time AI-powered interview simulation platform built for the UpSkill India Challenge (HCL + GUVI + IIT Bombay).
+
+## 🚀 Team Members
+- **Mini** – ML Lead  
+- **Suvidha** – Backend  
+- **Tanishka** – Frontend  
+- **Sonali** – Design  
+
+---
+
+# 📁 Project Structure
+
 │
 ├── backend/
 │   ├── app/
