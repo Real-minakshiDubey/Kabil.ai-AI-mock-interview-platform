@@ -2,10 +2,10 @@
 A real-time AI-powered interview simulation platform built for the UpSkill India Challenge (HCL + GUVI + IIT Bombay).
 
 ## 🚀 Team Members
-- **Mini** – ML Lead  
-- **Suvidha** – Backend  
-- **Tanishka** – Frontend  
-- **Sonali** – Design  
+- **Minakshi Dubey** – ML Lead  
+- **Suvidha Vishwakarma** – Backend  
+- **Tanishka Gour** – Frontend  
+- **Sonali Kumari** – Design  
 
 ---
 
