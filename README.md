@@ -173,93 +173,6 @@ Place inside:
        └────────────────────────────────────────────────┘
 
 
-4-Week Development Roadmap
-Week 1 — Setup, Architecture & Backend Scaffolding
-ML (Mini)
-
-Define full AI pipeline (audio + video)
-
-Define metrics: confidence, posture, eye_contact, engagement
-
-Choose models: Whisper, MediaPipe/Facemesh, LLM
-
-Backend (Suvi)
-
-Setup FastAPI structure
-
-Create base endpoints
-
-Setup PostgreSQL models
-
-Database (Sonali)
-
-ER diagram creation
-
-Schema:
-
-users
-
-interview_sessions
-
-transcripts
-
-video_scores (JSONB)
-
-final_reports
-
-Frontend (Tanishka)
-
-Build UI screens
-
-Setup role selection & interview layout structure
-
-Week 2 — AI Model Integration & Backend API Development
-ML (Mini)
-
-Video ML models:
-
-Face detection
-
-Eye-contact detection
-
-Emotion analysis
-
-Mouth movement → fluency
-
-Produce metrics every 2 seconds
-
-Build scoring logic combining audio + video
-
-Backend (Suvi)
-
-Connect ML endpoints: /stt, /expression, /score
-
-Create interview workflow
-
-Database (Sonali)
-
-Test DB integrations
-
-Validate schema for ML metrics
-
-Frontend (Tanishka)
-
-Implement camera + microphone access
-
-Send audio via WebSocket
-
-Show real-time transcripts
-
-Week 3 — Full Frontend ↔ Backend ↔ ML Integration
-Frontend
-
-Send video frames every 200–300ms
-
-Add live evaluation indicators
-
-Build results dashboard (graphs + score cards)
-
-Backend
 
 
 
@@ -278,8 +191,7 @@ final_reports	Final multi-modal
                │ • Shows live metrics         │
                └───────────────┬──────────────┘
                                │ WebSocket
-                               ▼
-       ┌────────────────────────────────────────────────┐
+                               ────────┐
        │                BACKEND (FastAPI)               │
        │────────────────────────────────────────────────│
        │ • WS: /ws/stt/{session_id}                    │
@@ -310,63 +222,7 @@ final_reports	Final multi-modal
        │ • final_reports                                │
        └────────────────────────────────────────────────┘
 
-4-Week Development Roadmap
-(Official Milestone Format)
-Week 1 — Setup, Architecture & Backend Scaffolding
-### ML (Mini)
-
-Define complete AI pipeline (audio + video)
-
-Define metrics: confidence, posture, eye_contact, engagement
-
-Choose Whisper, MediaPipe/Facemesh, LLM models
-
-### Backend (Suvi)
-
-Initialize FastAPI backend
-
-Create base endpoints (/start, /qa, /finalize)
-
-Setup PostgreSQL + ORM models
-
-### Database (Sonali)
-
-Create database schema:
-
-users
-
-interview_sessions
-
-transcripts
-
-video_scores (JSONB)
-
-final_reports
-
-ER diagram + migrations
-
-### Frontend (Tanishka)
-
-Setup project structure
-
-Create Home, Role Selection, Interview layout
-
-Week 2 — AI Model Integration & Core API Development
-### ML (Mini)
-
-Implement video ML models:
-
-Face detection
-
-Eye-contact estimation
-
-Emotion recognition
-
-Mouth movement → fluency metrics
-
-Generate metrics every 2 seconds
-
-Build scoring engine (audio + video fusion)
+ (audio + video fusion)
 
 ### Backend m
 
@@ -393,11 +249,7 @@ Week 3 — Full System Integration
 
 Send video frames (200–300ms)
 
-Display live metrics & transcript
-
-Build results dashboard (charts + score cards)
-
-### Backend
+Display live metrics & transcri
 
 Complete multi-question workflow
 
@@ -462,97 +314,6 @@ Tanishka Gour – Frontend
 Suvidha vishwakarma – Backend
 
 Sonali Kumari - design, database**
-
-## 3-Week Implementation Plan
-**Week 1 — Setup, Architecture & Backend Foundation**
-
--ML
-
-Define full voice + video AI pipeline
-
-Select models: Whisper, MediaPipe/Facemesh, LLM
-
-Define metrics: confidence, eye_contact, posture, engagement
-
--Backend
-
-Create FastAPI project + routing
-
-Setup WebSockets for audio & video
-
-Design REST APIs for interview workflow
-
--Database 
-
-Schema creation: sessions, Q/A, transcripts, video_scores, reports
-
-ER diagram + migrations
-
--Frontend 
-
-Setup React project
-
-Build Home, Role Selection, Interview layout
-
-**Week 2 — Core AI Integration & Workflow Development**
-
--ML 
-
-Implement video models: face detection, emotion, eye contact
-
-Generate metrics every 2 seconds
-
-Build scoring engine (audio + video fusion)
-
--Backend 
-
-Integrate ML services: /stt, /expression, /score
-
-Implement multi-question flow logic
-
--Database 
-
-Test DB operations
-
-Verify metric storage
-
--Frontend 
-
-Add camera + mic access
-
-Stream audio via WebSocket
-
-Display real-time transcripts
-
-**Week 3 — Complete Integration, Testing & Refinement**
-
--Frontend
-
-Send video frames every 200–300ms
-
-Add live evaluation indicators
-
-Build results dashboard (scores, graphs, improvements)
-
--Backend
-
-Complete end-to-end interview workflow
-
-Performance optimization for WS streams
-
-Error handling + retry logic
-
--ML
-
-Combine all metrics into final scoring JSON
-
-Improve feedback quality using LLM
-
-Database
-
-Validate multi-question flows
-
-Optimize JSONB queries
 
 ## 🏆 Status
 
