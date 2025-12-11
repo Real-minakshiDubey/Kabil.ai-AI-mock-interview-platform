@@ -260,6 +260,118 @@ WS   /ws/video/{session_id}
 POST /api/session/{id}/qa
 POST /api/session/{id}/finalize
 
+## 🔧 Installation Instructions
+**1️⃣ Clone Repo** 
+git clone https://github.com/<your-username>/Kabil.ai-AI-mock-interview-platform.git
+cd Kabil.ai-AI-mock-interview-platform
+
+**2️⃣ Backend Setup (FastAPI)**
+Create Virtual Environment
+cd backend
+python -m venv backend_env
+backend_env\Scripts\activate
+
+Install Requirements
+pip install -r requirements.txt
+
+Run Backend
+uvicorn ws_stt_fastapi:app --host 0.0.0.0 --port 8000 --reload
+
+
+Backend will run at:
+
+http://127.0.0.1:8000
+
+**3️⃣ ML Service Setup**
+Create environment
+cd ml
+python -m venv ml_env
+ml_env\Scripts\activate
+
+Install ML dependencies
+pip install -r ml_requirements.txt
+
+Run ML server
+uvicorn ml_service:app --host 127.0.0.1 --port 8601 --reload
+
+
+ML Service runs at:
+
+http://127.0.0.1:8601
+
+**4️⃣ Frontend Setup (React + Vite)**
+cd frontend
+npm install
+npm run dev
+
+
+Frontend runs at:
+
+http://localhost:5173
+
+## 🌐 API Endpoints
+**Start Interview Session**
+POST /api/session/start
+
+
+Request:
+
+{ "role": "ml_engineer" }
+
+**Speech-to-Text (WebSocket)**
+ws://127.0.0.1:8000/ws/stt/{session_id}
+
+Score User Answer
+POST /score
+
+
+**Example:**
+
+{
+  "question": "What is Python?",
+  "answer": "Python is a programming language.",
+  "expected_keywords": ["programming", "language"]
+}
+
+**📥 Model Downloads**
+
+Large models ARE NOT included in GitHub due to the 25MB limit.
+
+Download Vosk Model (small model recommended):
+https://alphacephei.com/vosk/models
+
+Place inside:
+
+/vosk_model/
+
+**📘 Architecture Overview**
+Frontend (React)
+│
+│-- camera + microphone → WebSocket → Backend
+│
+Backend (FastAPI)
+│-- Real-time STT using Vosk
+│-- Sends transcript → ML Service
+│
+ML Service
+│-- scoring_model.py → NLP similarity + keywords
+│-- emotion_model.py → emotion prediction
+│-- question_generator.py → generate next question
+
+## 🧠 AI Models Used
+**1. SentenceTransformer (all-MiniLM-L6-v2)**
+
+Used for semantic similarity scoring.
+
+**2. Vosk Speech Recognition**
+
+Offline STT engine with low latency.
+
+**3. Custom emotion_classifier.pt**
+
+PyTorch-based emotion classification model.
+
+
 ## Conclusion
 
 Kabil.AI delivers a working multimodal mock interview platform with real-time evaluation and AI-driven scoring, meeting the Round-2 prototype requirements.
