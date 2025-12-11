@@ -43,21 +43,15 @@ kabil-ai-interview/
 │   ├── package.json
 │   ├── .env
 │
-├── models/
-│   └── README.md  (I will give)
-│
-├── docs/
-│   └── system_design.pdf  (You will add)
-│
-└── README.md  (I will generate)
+└── README.md  
 
 
 ## 🔧 Installation Instructions
-1️⃣ Clone Repo
+## 1️⃣ Clone Repo
 git clone https://github.com/<your-username>/Kabil.ai-AI-mock-interview-platform.git
 cd Kabil.ai-AI-mock-interview-platform
 
-2️⃣ Backend Setup (FastAPI)
+## 2️⃣ Backend Setup (FastAPI)
 Create Virtual Environment
 cd backend
 python -m venv backend_env
@@ -176,17 +170,18 @@ PyTorch-based emotion classification model.
 
 ## 👨‍💻 Contributors
 
-Minakshi Dubey– Lead ML 
+**Minakshi Dubey– Lead ML
 
 Tanishka Gour – Frontend
 
 Suvidha vishwakarma – Backend
 
-Sonali Kumari - design, database
+Sonali Kumari - design, database**
 
 ## 3-Week Implementation Plan
 **Week 1 — Setup, Architecture & Backend Foundation**
-ML (Mini)
+
+-ML
 
 Define full voice + video AI pipeline
 
@@ -194,7 +189,7 @@ Select models: Whisper, MediaPipe/Facemesh, LLM
 
 Define metrics: confidence, eye_contact, posture, engagement
 
-Backend (Suvi)
+-Backend
 
 Create FastAPI project + routing
 
@@ -202,20 +197,21 @@ Setup WebSockets for audio & video
 
 Design REST APIs for interview workflow
 
-Database (Sonali)
+-Database 
 
 Schema creation: sessions, Q/A, transcripts, video_scores, reports
 
 ER diagram + migrations
 
-Frontend (Tanishka)
+-Frontend 
 
 Setup React project
 
 Build Home, Role Selection, Interview layout
 
-Week 2 — Core AI Integration & Workflow Development
-ML (Mini)
+**Week 2 — Core AI Integration & Workflow Development**
+
+-ML 
 
 Implement video models: face detection, emotion, eye contact
 
@@ -223,19 +219,19 @@ Generate metrics every 2 seconds
 
 Build scoring engine (audio + video fusion)
 
-Backend (Suvi)
+-Backend 
 
 Integrate ML services: /stt, /expression, /score
 
 Implement multi-question flow logic
 
-Database (Sonali)
+-Database 
 
 Test DB operations
 
 Verify metric storage
 
-Frontend (Tanishka)
+-Frontend 
 
 Add camera + mic access
 
@@ -243,8 +239,9 @@ Stream audio via WebSocket
 
 Display real-time transcripts
 
-Week 3 — Complete Integration, Testing & Refinement
-Frontend
+**Week 3 — Complete Integration, Testing & Refinement**
+
+-Frontend
 
 Send video frames every 200–300ms
 
@@ -252,7 +249,7 @@ Add live evaluation indicators
 
 Build results dashboard (scores, graphs, improvements)
 
-Backend
+-Backend
 
 Complete end-to-end interview workflow
 
@@ -260,7 +257,7 @@ Performance optimization for WS streams
 
 Error handling + retry logic
 
-ML
+-ML
 
 Combine all metrics into final scoring JSON
 
@@ -271,6 +268,7 @@ Database
 Validate multi-question flows
 
 Optimize JSONB queries
+
 ## 🏆 Status
 
 ✔ Prototype Completed
