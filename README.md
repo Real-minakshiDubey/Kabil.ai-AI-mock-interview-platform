@@ -173,8 +173,6 @@ Place inside:
        └────────────────────────────────────────────────┘
 
 
-If you want a PNG version, I can generate it.
-
 4-Week Development Roadmap
 Week 1 — Setup, Architecture & Backend Scaffolding
 ML (Mini)
@@ -263,83 +261,7 @@ Build results dashboard (graphs + score cards)
 
 Backend
 
-Complete interview lifecycle
 
-Improve WebSocket performance
-
-Add next-question logic
-
-ML
-
-Optimize FPS (~3fps)
-
-Generate combined scoring JSON:
-
-{
-  "scores": {
-    "confidence": 7.5,
-    "communication": 8.0,
-    "fluency": 7.0,
-    "eye_contact": 8.0,
-    "posture": 6.5
-  },
-  "feedback": "Good clarity, improve posture.",
-  "improvement_plan": ["Practice posture", "Reduce filler words"]
-}
-
-Database
-
-Multi-question testing
-
-JSONB optimization
-
-Week 4 — Feature Refinement, Testing & Documentation
-Frontend
-
-UI polish, animations, error handling
-
-Responsive design
-
-Backend
-
-Optimization & deployment setup
-
-ML
-
-Model tuning
-
-Improve evaluation prompts
-
-Documentation (Sonali)
-
-API documentation
-
-DB docs
-
-Architecture diagrams
-
-Final PPT + demo script
-
-API Endpoints
-Start Interview
-POST /api/session/start
-
-
-Response:
-
-{ "session_id": "sess_01" }
-
-Audio Streaming
-WS /ws/stt/{session_id}
-
-Video Streaming
-WS /ws/video/{session_id}
-
-Store Q/A
-POST /api/session/{id}/qa
-
-Finalize Interview
-POST /api/session/{id}/finalize
 
 Database Schema (Summary)
 Table	Purpose
@@ -347,20 +269,7 @@ interview_sessions	Session metadata
 interview_qa	Question + transcript + partial scores
 transcripts	STT results
 video_scores	Metrics from video frames
-final_reports	Final multi-modal evaluation
-Testing Approach
-
-Audio → STT → transcript validation
-
-Video → metrics → scoring consistency
-
-End-to-end interview (5 questions)
-
-Load testing for multiple parallel sessions
-
-
-
-┌──────────────────────────────┐
+final_reports	Final multi-modal 
                │      FRONTEND (React)        │
                │──────────────────────────────│
                │ • Sends audio (1s chunks)    │
@@ -459,19 +368,19 @@ Generate metrics every 2 seconds
 
 Build scoring engine (audio + video fusion)
 
-### Backend (Suvi)
+### Backend m
 
 Integrate ML endpoints: /stt, /expression, /score
 
 Develop interview flow controller
 
-### Database (Sonali)
+### Database
 
 Write & validate DB operations
 
 Test metric storage and queries
 
-### Frontend (Tanishka)
+### Frontend 
 
 Implement camera & microphone access
 
@@ -543,7 +452,7 @@ Model tuning
 
 Improve prompt templates for feedback generation
 
-### Documentation (Sonali)
+### Documentation 
 
 Write API docs
 
@@ -584,21 +493,7 @@ Video → ML → metric accuracy
 
 End-to-end workflow test (5 questions)
 
-Load testing (parallel interviews)
-
-Conclusion
-
-Kabil.AI delivers a functional multimodal AI mock interview system with:
-
-Real-time audio + video evaluation
-
-AI scoring engine
-
-LLM feedback generation
-
-Full interview workflow with database persistence
-
-This system meets Round-2 requirements and is ready for Round-3 enhancements.
+Load testing 
 
 ## 🧠 AI Models Used
 1. SentenceTransformer (all-MiniLM-L6-v2)
