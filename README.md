@@ -131,18 +131,474 @@ Place inside:
 /vosk_model/
 
 ## 📘 Architecture Overview
-Frontend (React)
-│
-│-- camera + microphone → WebSocket → Backend
-│
-Backend (FastAPI)
-│-- Real-time STT using Vosk
-│-- Sends transcript → ML Service
-│
-ML Service
-│-- scoring_model.py → NLP similarity + keywords
-│-- emotion_model.py → emotion prediction
-│-- question_generator.py → generate next question
+               ┌──────────────────────────────┐
+               │      FRONTEND (React)        │
+               │──────────────────────────────│
+               │ • Sends audio (1s chunks)    │
+               │ • Sends video frames (200ms) │
+               │ • Displays transcript        │
+               │ • Shows live metrics         │
+               └───────────────┬──────────────┘
+                               │ WebSocket
+                               ▼
+       ┌────────────────────────────────────────────────┐
+       │                BACKEND (FastAPI)               │
+       │────────────────────────────────────────────────│
+       │ • WS: /ws/stt/{session_id}                    │
+       │ • WS: /ws/video/{session_id}                  │
+       │ • REST: /start, /qa, /finalize                │
+       │ • Sends audio/video to ML services            │
+       │ • Stores transcripts & scores in DB           │
+       └───────────────┬──────────────────────────────┘
+                       │ HTTP
+                       ▼
+       ┌────────────────────────────────────────────────┐
+       │               ML MICROSERVICES                │
+       │────────────────────────────────────────────────│
+       │ • /stt → Speech-to-Text (Whisper)             │
+       │ • /expression → Video metrics                 │
+       │ • /score → Combined scoring engine            │
+       │ • LLM-based question generation               │
+       └───────────────┬──────────────────────────────┘
+                       │
+                       ▼
+       ┌────────────────────────────────────────────────┐
+       │                DATABASE (PostgreSQL)           │
+       │────────────────────────────────────────────────│
+       │ • interview_sessions                           │
+       │ • interview_qa                                 │
+       │ • transcripts                                  │
+       │ • video_scores (JSONB)                         │
+       │ • final_reports                                │
+       └────────────────────────────────────────────────┘
+
+
+If you want a PNG version, I can generate it.
+
+4-Week Development Roadmap
+Week 1 — Setup, Architecture & Backend Scaffolding
+ML (Mini)
+
+Define full AI pipeline (audio + video)
+
+Define metrics: confidence, posture, eye_contact, engagement
+
+Choose models: Whisper, MediaPipe/Facemesh, LLM
+
+Backend (Suvi)
+
+Setup FastAPI structure
+
+Create base endpoints
+
+Setup PostgreSQL models
+
+Database (Sonali)
+
+ER diagram creation
+
+Schema:
+
+users
+
+interview_sessions
+
+transcripts
+
+video_scores (JSONB)
+
+final_reports
+
+Frontend (Tanishka)
+
+Build UI screens
+
+Setup role selection & interview layout structure
+
+Week 2 — AI Model Integration & Backend API Development
+ML (Mini)
+
+Video ML models:
+
+Face detection
+
+Eye-contact detection
+
+Emotion analysis
+
+Mouth movement → fluency
+
+Produce metrics every 2 seconds
+
+Build scoring logic combining audio + video
+
+Backend (Suvi)
+
+Connect ML endpoints: /stt, /expression, /score
+
+Create interview workflow
+
+Database (Sonali)
+
+Test DB integrations
+
+Validate schema for ML metrics
+
+Frontend (Tanishka)
+
+Implement camera + microphone access
+
+Send audio via WebSocket
+
+Show real-time transcripts
+
+Week 3 — Full Frontend ↔ Backend ↔ ML Integration
+Frontend
+
+Send video frames every 200–300ms
+
+Add live evaluation indicators
+
+Build results dashboard (graphs + score cards)
+
+Backend
+
+Complete interview lifecycle
+
+Improve WebSocket performance
+
+Add next-question logic
+
+ML
+
+Optimize FPS (~3fps)
+
+Generate combined scoring JSON:
+
+{
+  "scores": {
+    "confidence": 7.5,
+    "communication": 8.0,
+    "fluency": 7.0,
+    "eye_contact": 8.0,
+    "posture": 6.5
+  },
+  "feedback": "Good clarity, improve posture.",
+  "improvement_plan": ["Practice posture", "Reduce filler words"]
+}
+
+Database
+
+Multi-question testing
+
+JSONB optimization
+
+Week 4 — Feature Refinement, Testing & Documentation
+Frontend
+
+UI polish, animations, error handling
+
+Responsive design
+
+Backend
+
+Optimization & deployment setup
+
+ML
+
+Model tuning
+
+Improve evaluation prompts
+
+Documentation (Sonali)
+
+API documentation
+
+DB docs
+
+Architecture diagrams
+
+Final PPT + demo script
+
+API Endpoints
+Start Interview
+POST /api/session/start
+
+
+Response:
+
+{ "session_id": "sess_01" }
+
+Audio Streaming
+WS /ws/stt/{session_id}
+
+Video Streaming
+WS /ws/video/{session_id}
+
+Store Q/A
+POST /api/session/{id}/qa
+
+Finalize Interview
+POST /api/session/{id}/finalize
+
+Database Schema (Summary)
+Table	Purpose
+interview_sessions	Session metadata
+interview_qa	Question + transcript + partial scores
+transcripts	STT results
+video_scores	Metrics from video frames
+final_reports	Final multi-modal evaluation
+Testing Approach
+
+Audio → STT → transcript validation
+
+Video → metrics → scoring consistency
+
+End-to-end interview (5 questions)
+
+Load testing for multiple parallel sessions
+
+
+
+┌──────────────────────────────┐
+               │      FRONTEND (React)        │
+               │──────────────────────────────│
+               │ • Sends audio (1s chunks)    │
+               │ • Sends video frames (200ms) │
+               │ • Displays transcript        │
+               │ • Shows live metrics         │
+               └───────────────┬──────────────┘
+                               │ WebSocket
+                               ▼
+       ┌────────────────────────────────────────────────┐
+       │                BACKEND (FastAPI)               │
+       │────────────────────────────────────────────────│
+       │ • WS: /ws/stt/{session_id}                    │
+       │ • WS: /ws/video/{session_id}                  │
+       │ • REST: /start, /qa, /finalize                │
+       │ • Sends audio/video to ML services            │
+       │ • Stores transcripts & scores in DB           │
+       └───────────────┬──────────────────────────────┘
+                       │ HTTP
+                       ▼
+       ┌────────────────────────────────────────────────┐
+       │               ML MICROSERVICES                │
+       │────────────────────────────────────────────────│
+       │ • /stt → Speech-to-Text (Whisper)             │
+       │ • /expression → Video metrics                 │
+       │ • /score → Combined scoring engine            │
+       │ • LLM-based question generation               │
+       └───────────────┬──────────────────────────────┘
+                       │
+                       ▼
+       ┌────────────────────────────────────────────────┐
+       │                DATABASE (PostgreSQL)           │
+       │────────────────────────────────────────────────│
+       │ • interview_sessions                           │
+       │ • interview_qa                                 │
+       │ • transcripts                                  │
+       │ • video_scores (JSONB)                         │
+       │ • final_reports                                │
+       └────────────────────────────────────────────────┘
+
+4-Week Development Roadmap
+(Official Milestone Format)
+Week 1 — Setup, Architecture & Backend Scaffolding
+### ML (Mini)
+
+Define complete AI pipeline (audio + video)
+
+Define metrics: confidence, posture, eye_contact, engagement
+
+Choose Whisper, MediaPipe/Facemesh, LLM models
+
+### Backend (Suvi)
+
+Initialize FastAPI backend
+
+Create base endpoints (/start, /qa, /finalize)
+
+Setup PostgreSQL + ORM models
+
+### Database (Sonali)
+
+Create database schema:
+
+users
+
+interview_sessions
+
+transcripts
+
+video_scores (JSONB)
+
+final_reports
+
+ER diagram + migrations
+
+### Frontend (Tanishka)
+
+Setup project structure
+
+Create Home, Role Selection, Interview layout
+
+Week 2 — AI Model Integration & Core API Development
+### ML (Mini)
+
+Implement video ML models:
+
+Face detection
+
+Eye-contact estimation
+
+Emotion recognition
+
+Mouth movement → fluency metrics
+
+Generate metrics every 2 seconds
+
+Build scoring engine (audio + video fusion)
+
+### Backend (Suvi)
+
+Integrate ML endpoints: /stt, /expression, /score
+
+Develop interview flow controller
+
+### Database (Sonali)
+
+Write & validate DB operations
+
+Test metric storage and queries
+
+### Frontend (Tanishka)
+
+Implement camera & microphone access
+
+Add WebSocket audio streaming
+
+Show real-time transcripts
+
+Week 3 — Full System Integration
+### Frontend
+
+Send video frames (200–300ms)
+
+Display live metrics & transcript
+
+Build results dashboard (charts + score cards)
+
+### Backend
+
+Complete multi-question workflow
+
+Improve WebSocket performance
+
+Implement next-question logic
+
+### ML
+
+Optimize FPS (~3 fps) for video scoring
+
+Generate combined scoring JSON:
+
+{
+  "scores": {
+    "confidence": 7.5,
+    "communication": 8.0,
+    "fluency": 7.0,
+    "eye_contact": 8.0,
+    "posture": 6.5
+  },
+  "feedback": "Good clarity; improve posture.",
+  "improvement_plan": [
+    "Practice posture alignment",
+    "Reduce filler words",
+    "Maintain consistent eye contact"
+  ]
+}
+
+### Database
+
+Validate multi-question session flow
+
+Optimize JSONB query patterns
+
+Week 4 — Refinement, Testing & Documentation
+### Frontend
+
+Polish UI, add animations, handle errors
+
+Make layout fully responsive
+
+### Backend
+
+Add caching, optimize latency
+
+Prepare deployment (Render / EC2)
+
+### ML
+
+Model tuning
+
+Improve prompt templates for feedback generation
+
+### Documentation (Sonali)
+
+Write API docs
+
+Prepare DB docs
+
+Create architecture diagrams
+
+Prepare PPT + demo script
+
+API Endpoints
+Start Interview
+POST /api/session/start
+
+Audio Stream
+WS /ws/stt/{session_id}
+
+Video Stream
+WS /ws/video/{session_id}
+
+Save Q/A
+POST /api/session/{id}/qa
+
+Finalize Interview
+POST /api/session/{id}/finalize
+
+Database Schema (Summary)
+Table	Description
+interview_sessions	Session-level metadata
+interview_qa	Question, transcript, partial score
+transcripts	Raw STT outputs
+video_scores	Video metrics (JSONB)
+final_reports	Final scoring + improvement plan
+Testing Strategy
+
+Audio → STT → transcript validation
+
+Video → ML → metric accuracy
+
+End-to-end workflow test (5 questions)
+
+Load testing (parallel interviews)
+
+Conclusion
+
+Kabil.AI delivers a functional multimodal AI mock interview system with:
+
+Real-time audio + video evaluation
+
+AI scoring engine
+
+LLM feedback generation
+
+Full interview workflow with database persistence
+
+This system meets Round-2 requirements and is ready for Round-3 enhancements.
 
 ## 🧠 AI Models Used
 1. SentenceTransformer (all-MiniLM-L6-v2)
@@ -281,20 +737,9 @@ Optimize JSONB queries
 
 This project is open-source under the MIT license.
 
-✅ 2. /models/README.md (Include This in Models Folder)
-# Models Folder
+## Conclusion
 
-This folder contains instructions for downloading the large AI models.
+Kabil.AI provides a functioning multimodal mock interview platform with speech + vision analysis, question generation, and personalized feedback.
+This system satisfies the Round-2 requirements and prepares the foundation for Round-3 enhancements.
 
-GitHub does not support files over 25MB, so model files are not stored here.
-
----
-
-## 1. Download Vosk Model
-Recommended model (Small):
-https://alphacephei.com/vosk/models
-
-Extract and place inside:
-
-/vosk_model/
 
