@@ -427,73 +427,7 @@ Generate combined scoring JSON:
   ]
 }
 
-### Database
 
-Validate multi-question session flow
-
-Optimize JSONB query patterns
-
-Week 4 — Refinement, Testing & Documentation
-### Frontend
-
-Polish UI, add animations, handle errors
-
-Make layout fully responsive
-
-### Backend
-
-Add caching, optimize latency
-
-Prepare deployment (Render / EC2)
-
-### ML
-
-Model tuning
-
-Improve prompt templates for feedback generation
-
-### Documentation 
-
-Write API docs
-
-Prepare DB docs
-
-Create architecture diagrams
-
-Prepare PPT + demo script
-
-API Endpoints
-Start Interview
-POST /api/session/start
-
-Audio Stream
-WS /ws/stt/{session_id}
-
-Video Stream
-WS /ws/video/{session_id}
-
-Save Q/A
-POST /api/session/{id}/qa
-
-Finalize Interview
-POST /api/session/{id}/finalize
-
-Database Schema (Summary)
-Table	Description
-interview_sessions	Session-level metadata
-interview_qa	Question, transcript, partial score
-transcripts	Raw STT outputs
-video_scores	Video metrics (JSONB)
-final_reports	Final scoring + improvement plan
-Testing Strategy
-
-Audio → STT → transcript validation
-
-Video → ML → metric accuracy
-
-End-to-end workflow test (5 questions)
-
-Load testing 
 
 ## 🧠 AI Models Used
 1. SentenceTransformer (all-MiniLM-L6-v2)
